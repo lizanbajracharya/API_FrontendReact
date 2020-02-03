@@ -5,7 +5,7 @@ import {BrowserRouter} from 'react-router-dom'
 import {Route} from 'react-router-dom'
 import AboutComponent from './about/AboutComponent'
 import LoginComponent from './login/LoginComponent'
-import adminpanel from './admin/adminpanel'
+
 class BodyComponent extends React.Component{
     render(){
         return(
@@ -13,7 +13,6 @@ class BodyComponent extends React.Component{
                 <BrowserRouter>
                 <Route path="/about" component={AboutComponent}/>
                 <Route path="/login" component={LoginComponent}/>
-                <Route path="/admin" component={adminpanel}/>
             {/* <div class="container">
 
             <h1 class="my-4">Welcome to Modern Business</h1>
