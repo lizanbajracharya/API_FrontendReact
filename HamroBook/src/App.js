@@ -7,10 +7,12 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import LoginComponent from './components/LoginComponent';
 import NoMatch from './components/NoMatch';
 import Register from './components/Register'
-import AdminDashboard from './components/admin/AdminPanel';
+import AdminDashboard from './components/AdminPanel';
 import Admin from './components/Admin';
 import Dashboard from './components/Dashboard';
 import UserProfile from './components/UserProfile';
+import AddProduct from './components/AddProduct';
+import AllUsers from './components/AllUsers';
 function App() {
   return (
     <Container>
@@ -22,6 +24,9 @@ function App() {
         <PrivateRoute path='/admindashboard' component={AdminDashboard} />
         <PrivateRoute path='/dashboard' component={Dashboard} />
         <PrivateRoute path='/profile' component={UserProfile} />
+        <PrivateRoute path='/addproduct' component={AddProduct} />
+        {/* <PrivateRoute path='/addbook' component={AddBook} /> */}
+        <PrivateRoute path='/users' component={AllUsers} />
         <Route>
           <NoMatch />
         </Route>

@@ -82,15 +82,13 @@ export default class UserProfile extends Component {
                                     value={this.state.user.Email}
                                     onChange={(e) => this.handleChange(e)} />
                             </FormGroup>
-                            {/* <FormGroup>
-                                <img className='img-thumbnail'
-                                    width='400' src={`http://localhost:300/uploads/${this.state.user.image}`}
-                                    alt="profile" />
-                                <CustomInput type='file' id='profilePic'
-                                    onChange={this.handleFileSelect} />
-                                {this.state.selectedFile ? (<FileUploadButton
-                                    uploadFile={this.uploadFile} />) : null}
-                            </FormGroup> */}
+                            <FormGroup>
+                                <Label for='username'>Username</Label>
+                                <Input type='text' id='username'
+                                    name='username'
+                                    value={this.state.user.username}
+                                    onChange={(e) => this.handleChange(e)} />
+                            </FormGroup>
                             <Button color='danger' onClick={this.updateUser} block>Update User</Button>
                         </Form>
                     </Container>
