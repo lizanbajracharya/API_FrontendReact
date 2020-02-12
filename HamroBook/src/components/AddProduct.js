@@ -1,6 +1,6 @@
 import React from 'react'
 import Axios from 'axios';
-import { Form, FormGroup, Input, Button, Label,Table, CustomInput, Container ,ListGroupItem,ListGroup} from 'reactstrap'
+import { Form, FormGroup, Input, Button, Label,Table, Container } from 'reactstrap'
 import AdminNavigation from './AdminNavigation';
 
 class AddProduct extends React.Component{
@@ -9,12 +9,14 @@ class AddProduct extends React.Component{
 
     this.state = {
         product: [],
+        productId:'',
        productName:'',
        productDescription:'',
        Writer:'',
        Stock:'',
        price:'',
        productImage:'',
+       isEdit:false,
         config: {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         }
@@ -46,10 +48,18 @@ handleTodoSubmit = (e) => {
     data.append('Stock',this.state.Stock)
     data.append('Writer',this.state.Writer)
     data.append('price',this.state.price)
-    alert(this.state.selectedFile.name)
     Axios.post('http://localhost:3000/product',data)
     .then(res=>{
         console.log(res.statusText)
+        this.setState({
+            product: [...this.state.product, res.data],
+            productName:'',
+       productDescription:'',
+       Writer:'',
+       Stock:'',
+       price:'',
+       selectedFile:null
+        })
     })
 }
 
@@ -65,19 +75,61 @@ handleTodoDelete = (productId) => {
     Axios.delete(`http://localhost:3000/product/${productId}`, this.state.config)
 }
 
-updateTask = (updatedTask) => {
-    const updatedTasks = this.state.tasks.map((task) => {
-        if (task._id === updatedTask._id) {
-            task = updatedTask
-        }
-        return task;
-    })
+itemClick = (productId) => {
+    Axios.get(`http://localhost:3000/product/${productId}`, this.state.config)
+    .then((response => {
     this.setState({
-        tasks: updatedTasks
+        productId:response.data._id,
+        productName: response.data.productName,
+        productDescription:response.data.productDescription,
+        Writer:response.data.Writer,
+        price:response.data.price,
+        Stock:response.data.Stock,
+        isEdit:true
     })
-    Axios.put(`http://localhost:3001/tasks/${updatedTask._id}`,
-        { name: updatedTask.name, done: updatedTask.done },
-        this.state.config).then((response) => console.log(response.data));
+})
+)}
+
+handleTaskUpdate = (e) => {
+    const data=new FormData()
+    data.append('productImage',this.state.selectedFile)
+    data.append('productName',this.state.productName)
+    data.append('productDescription',this.state.productDescription)
+    data.append('Stock',this.state.Stock)
+    data.append('Writer',this.state.Writer)
+    data.append('price',this.state.price)
+    Axios.patch(`http://localhost:3000/product/${this.state.productId}`,data)
+    // .then(res=>{
+    //     console.log(res.statusText)
+    //     this.setState({
+    //         product: [...this.state.product, res.data],
+    //         productName:'',
+    //    productDescription:'',
+    //    Writer:'',
+    //    Stock:'',
+    //    price:'',
+    //    selectedFile:null,
+    //    isEdit:false
+    //     })
+    // })
+    .then((response) => {
+        const updatedTasks = this.state.product.map((products) => {
+            if (products._id === response.data._id) {
+                products = response.data
+            }
+            return products;
+        })
+        this.setState({
+            product: updatedTasks,
+            productName:'',
+       productDescription:'',
+       Writer:'',
+       Stock:'',
+       price:'',
+       selectedFile:null,
+            isEdit: false
+        })
+    }).catch((err) => console.log(err.response));
 }
 
 render() {
@@ -136,7 +188,13 @@ render() {
                                 <Input type='file' id='productImage' name='filesss' 
                                     onChange={this.handleCurrentTodoChange}/>
                             </FormGroup>
-                            <Button color='danger' onClick={this.handleTodoSubmit} >Add Product</Button>
+                            {/* <Button color='danger' onClick={this.handleTodoSubmit} >Add Product</Button> */}
+                            {
+                        (this.state.isEdit) ? <Button color='success' block
+                            onClick={this.handleTaskUpdate}>Update</Button> :
+                            <Button color='primary' block
+                                onClick={this.handleTodoSubmit}>Add</Button>
+                    }
                         </Form>
                         <Table>
                         {
@@ -145,7 +203,7 @@ render() {
                                     <td>{product.productName}</td><td>{product.Writer}</td><td>{product.price}</td>
                                     <td><img src={`http://localhost:3000/upload/${product.productImage}`} alt={product.productName} width="200px" /></td><td>{product.productDescription}</td><td>{product.Stock}</td><td>
                                     <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(product._id)}>Delete</Button></td><td>
-                                    <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(product._id)}>Edit</Button></td>
+                                    <Button color='danger' size='sm' onClick={() => this.itemClick(product._id)}>Edit</Button></td>
                                 </tr>)
                             })
                         }

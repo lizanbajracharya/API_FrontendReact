@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import Navigation from './Navigation'
+
 import Axios from 'axios'
-import { Form, FormGroup, Input, Container, ListGroup, ListGroupItem, Button } from 'reactstrap'
-import FileUploadButton from './FileUploadButton'
+import {  Container, ListGroup, ListGroupItem, Button } from 'reactstrap'
+
 import AdminNavigation from './AdminNavigation'
 
 export default class AllUsers extends Component{

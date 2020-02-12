@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import Navigation from './Navigation'
 import Axios from 'axios'
-import { Form, FormGroup, Input, Button, Label, CustomInput, Container } from 'reactstrap'
-import FileUploadButton from './FileUploadButton'
+import { Form, FormGroup, Input, Button, Label, Container } from 'reactstrap'
 
 export default class UserProfile extends Component {
 

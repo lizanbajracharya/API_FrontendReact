@@ -1,6 +1,6 @@
 import React from 'react'
 import Axios from 'axios';
-import { Form, FormGroup, Input, Button, Label, CustomInput, Container,ListGroup,ListGroupItem } from 'reactstrap'
+import { Form, FormGroup, Input, Button, Label,Table, Container } from 'reactstrap'
 import AdminNavigation from './AdminNavigation';
 class AdminPanel extends React.Component{
   constructor(props) {
@@ -116,16 +116,17 @@ render() {
                             
                             <Button color='danger' onClick={this.handleTodoSubmit}>Add Book</Button>
                         </Form>
-                        <ListGroup>
+                        <Table>
                         {
                             this.state.book.map((book) => {
-                                return (<ListGroupItem key={book._id} color='info' className='d-flex justify-content-between align-items-center'>
-                                    {book.BookTitle}{book.BookWriter}{book.BookContent}{book.Date}{book.Category}
-                                    <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(book._id)}>Delete</Button>
-                                </ListGroupItem>)
+                                return (<tr key={book._id} color='info' className='d-flex justify-content-between align-items-center'>
+                                    <td>{book.BookTitle}</td><td>{book.BookWriter}</td><td>{book.BookContent}</td><td>{book.Date}</td><td>{book.Category}</td>
+                                   <td> <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(book._id)}>Delete</Button></td>
+                                   <td> <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(book._id)}>Edit</Button></td>
+                                    </tr>)
                             })
                         }
-                    </ListGroup>
+                    </Table>
             </Container>
         </React.Fragment>
     )
