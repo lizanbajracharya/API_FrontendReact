@@ -50,25 +50,16 @@ export default class ProductList extends Component {
             }).catch((err) => console.log(err.response));
     }
 
-    handleAddNote = (newNote) => {
 
-        alert(newNote);
-
-        this.setState({
-            bookNotes: [newNote, ...this.state.bookNotes]
-        })
-        
-    }
 
     render() {
         const { book, handleDelete, handleUpdate } = this.props;
         return (
-
             <React.Fragment>
                 <tr>
                 <td>
                         
-                <img src={`http://localhost:3000/upload/${this.props.product.photo}`} alt={this.props.product.name}/>
+                <img src={`http://localhost:3000/upload/${this.props.product.productImage}`} alt={this.props.product.productName}/>
                     </td>
                     <td>
                         <Button onClick={this.toggleEdit}>Edit</Button>
@@ -78,7 +69,7 @@ export default class ProductList extends Component {
                     </td>
                 </tr>
 
-                <Modal isOpen={this.state.isEdit} toggle={this.toggleEdit}>
+                {/* <Modal isOpen={this.state.isEdit} toggle={this.toggleEdit}>
                     <ModalHeader toggle={this.toggleEdit}>
                         Edit Book
                     </ModalHeader>
@@ -101,7 +92,7 @@ export default class ProductList extends Component {
                         <Button color='primary' onClick={() => handleUpdate(book._id, this.state.bookDone, this.state.bookName)}>
                             Save</Button>
                     </ModalFooter>
-                </Modal>
+                </Modal> */}
             </React.Fragment>
 
         )

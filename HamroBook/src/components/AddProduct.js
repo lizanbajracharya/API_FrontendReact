@@ -2,13 +2,19 @@ import React from 'react'
 import Axios from 'axios';
 import { Form, FormGroup, Input, Button, Label,Table, CustomInput, Container ,ListGroupItem,ListGroup} from 'reactstrap'
 import AdminNavigation from './AdminNavigation';
+
 class AddProduct extends React.Component{
   constructor(props) {
     super(props)
 
     this.state = {
         product: [],
-        currentTodo: '',
+       productName:'',
+       productDescription:'',
+       Writer:'',
+       Stock:'',
+       price:'',
+       productImage:'',
         config: {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         }
@@ -25,33 +31,38 @@ componentDidMount() {
         })
 }
 
-handleCurrentTodoChange = (newTodo) => {
+handleCurrentTodoChange=event=> {
     this.setState({
-        currentTodo: newTodo
+        selectedFile: event.target.files[0]
     })
 }
 
-handleTodoSubmit = (e) => {
-    e.preventDefault();
-    if (!this.state.currentTodo) return;
 
-    Axios.post('http://localhost:3000/product', { name: this.state.currentTodo },
-        this.state.config).then((response) => {
-            this.setState({
-                product: [...this.state.prodcut, response.data],
-                currentTodo: ''
-            })
-        })
+handleTodoSubmit = (e) => { 
+    const data=new FormData()
+    data.append('productImage',this.state.selectedFile)
+    data.append('productName',this.state.productName)
+    data.append('productDescription',this.state.productDescription)
+    data.append('Stock',this.state.Stock)
+    data.append('Writer',this.state.Writer)
+    data.append('price',this.state.price)
+    alert(this.state.selectedFile.name)
+    Axios.post('http://localhost:3000/product',data)
+    .then(res=>{
+        console.log(res.statusText)
+    })
 }
 
-handleTodoDelete = (taskId) => {
-    const filteredTask = this.state.tasks.filter((task) => {
-        return task._id !== taskId
+
+
+handleTodoDelete = (productId) => {
+    const filteredproduct = this.state.product.filter((product) => {
+        return product._id !== productId
     })
     this.setState({
-        tasks: filteredTask
+        product: filteredproduct
     })
-    Axios.delete(`http://localhost:3001/tasks/${taskId}`, this.state.config)
+    Axios.delete(`http://localhost:3000/product/${productId}`, this.state.config)
 }
 
 updateTask = (updatedTask) => {
@@ -80,6 +91,8 @@ render() {
                                 <Input type='text'
                                   id="productName"
                                     name='productName'
+                                    value={this.state.productName}
+                                    onChange={(event)=>this.setState({productName:event.target.value})}
                                     />
                             </FormGroup>
                             <FormGroup>
@@ -87,6 +100,8 @@ render() {
                                 <Input type='text'
                                   id="Writer"
                                     name='Writer'
+                                    value={this.state.Writer}
+                                    onChange={(event)=>this.setState({Writer:event.target.value})}
                                     />
                             </FormGroup>
                             <FormGroup>
@@ -94,6 +109,8 @@ render() {
                                 <Input type='text'
                                   id="price"
                                     name='price'
+                                    value={this.state.price}
+                                    onChange={(event)=>this.setState({price:event.target.value})}
                                     />
                             </FormGroup>
                             <FormGroup>
@@ -101,6 +118,8 @@ render() {
                                 <Input type='text'
                                   id="productDescription"
                                     name='productDescription'
+                                    value={this.state.productDescription}
+                                    onChange={(event)=>this.setState({productDescription:event.target.value})}
                                     />
                             </FormGroup>
                             <FormGroup>
@@ -108,21 +127,26 @@ render() {
                                 <Input type='text'
                                   id="stock"
                                     name='stock'
+                                    value={this.state.Stock}
+                                    onChange={(event)=>this.setState({Stock:event.target.value})}
                                     />
                             </FormGroup>
                             <FormGroup>
                                 <Label for='productImage'>Select Image</Label>
-                                <Input type='file' id='productImage' name='productImage'/>
+                                <Input type='file' id='productImage' name='filesss' 
+                                    onChange={this.handleCurrentTodoChange}/>
                             </FormGroup>
-                            <Button color='danger' >Add Product</Button>
+                            <Button color='danger' onClick={this.handleTodoSubmit} >Add Product</Button>
                         </Form>
                         <Table>
                         {
                             this.state.product.map((product) => {
-                                return (<ListGroupItem key={product._id} color='info' className='d-flex justify-content-between align-items-center'>
-                                    {product.productName}{product.Writer}{product.price}{product.productImage}{product.productDescription}{product.Stock}
-                                    <Button color='danger' size='sm' onClick={() => this.deleteUser(product._id)}>Delete</Button>
-                                </ListGroupItem>)
+                                return (<tr key={product._id} color='info' className='d-flex justify-content-between align-items-center'>
+                                    <td>{product.productName}</td><td>{product.Writer}</td><td>{product.price}</td>
+                                    <td><img src={`http://localhost:3000/upload/${product.productImage}`} alt={product.productName} width="200px" /></td><td>{product.productDescription}</td><td>{product.Stock}</td><td>
+                                    <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(product._id)}>Delete</Button></td><td>
+                                    <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(product._id)}>Edit</Button></td>
+                                </tr>)
                             })
                         }
                     </Table>
@@ -133,3 +157,4 @@ render() {
 }
 
 export default AddProduct
+

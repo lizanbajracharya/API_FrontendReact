@@ -8,7 +8,10 @@ class AdminPanel extends React.Component{
 
     this.state = {
         book: [],
-        currentTodo: '',
+        BookName:'',
+        BookContent:'',
+        BookWriter:'',
+        Category:'',
         config: {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         }
@@ -25,33 +28,37 @@ componentDidMount() {
         })
 }
 
-handleCurrentTodoChange = (newTodo) => {
+handleCurrentTodoChange = (event) => {
     this.setState({
-        currentTodo: newTodo
+        selectedFile: event.target.files[0]
     })
 }
 
-handleTodoSubmit = (e) => {
-    e.preventDefault();
-    if (!this.state.currentTodo) return;
-
-    Axios.post('http://localhost:3001/tasks', { name: this.state.currentTodo },
-        this.state.config).then((response) => {
-            this.setState({
-                tasks: [...this.state.tasks, response.data],
-                currentTodo: ''
-            })
+handleTodoSubmit = (e) => { 
+    const data=new FormData()
+    data.append('BookContent',this.state.selectedFile)
+    data.append('BookName',this.state.BookName)
+    data.append('BookWriter',this.state.BookWriter)
+    data.append('Category',this.state.Category)
+    alert(this.state.selectedFile.name)
+    Axios.post('http://localhost:3000/book',data)
+    this.state.config.then((response) => {
+        this.setState({
+            book: [...this.state.book, response.data],
+            taskName: ''
         })
+    })
 }
 
-handleTodoDelete = (taskId) => {
-    const filteredTask = this.state.tasks.filter((task) => {
-        return task._id !== taskId
+
+handleTodoDelete = (bookId) => {
+    const filteredBook = this.state.book.filter((book) => {
+        return book._id !== bookId
     })
     this.setState({
-        tasks: filteredTask
+        book: filteredBook
     })
-    Axios.delete(`http://localhost:3001/tasks/${taskId}`, this.state.config)
+    Axios.delete(`http://localhost:3001/book/${bookId}`, this.state.config)
 }
 
 updateTask = (updatedTask) => {
@@ -78,8 +85,10 @@ render() {
                             <FormGroup>
                                 <Label for='BookTitle'>Book Title</Label>
                                 <Input type='text'
-                                  id="BookTitle"
-                                    name='BookTitle'
+                                  id="BookName"
+                                    name='BookName'
+                                    value={this.state.BookName}
+                                    onChange={(event)=>this.setState({BookName:event.target.value})}
                                     />
                             </FormGroup>
                             <FormGroup>
@@ -87,6 +96,8 @@ render() {
                                 <Input type='text'
                                   id="Category"
                                     name='Category'
+                                    value={this.state.Category}
+                                    onChange={(event)=>this.setState({Category:event.target.value})}
                                     />
                             </FormGroup>
                             <FormGroup>
@@ -94,21 +105,23 @@ render() {
                                 <Input type='text'
                                   id="BookWriter"
                                     name='BookWriter'
+                                    value={this.state.BookWriter}
+                                    onChange={(event)=>this.setState({BookWriter:event.target.value})}
                                     />
                             </FormGroup>
                             <FormGroup>
                                 <Label for='BookContent'>Select Book</Label>
-                                <Input type='file' id='BookContent' name='BookContent'/>
+                                <Input type='file' id='BookContent' name='BookContent' onChange={this.handleCurrentTodoChange}/>
                             </FormGroup>
                             
-                            <Button color='danger' >Add Book</Button>
+                            <Button color='danger' onClick={this.handleTodoSubmit}>Add Book</Button>
                         </Form>
                         <ListGroup>
                         {
                             this.state.book.map((book) => {
                                 return (<ListGroupItem key={book._id} color='info' className='d-flex justify-content-between align-items-center'>
                                     {book.BookTitle}{book.BookWriter}{book.BookContent}{book.Date}{book.Category}
-                                    <Button color='danger' size='sm' onClick={() => this.deleteUser(book._id)}>Delete</Button>
+                                    <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(book._id)}>Delete</Button>
                                 </ListGroupItem>)
                             })
                         }
