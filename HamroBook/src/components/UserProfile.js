@@ -25,27 +25,10 @@ export default class UserProfile extends Component {
             });
     }
 
-    handleFileSelect = (e) => {
-        this.setState({
-            selectedFile: e.target.files[0]
-        })
-    }
-
-    uploadFile = (e) => {
-        e.preventDefault();
-        const data = new FormData()
-        data.append('myFile', this.state.selectedFile)
-        Axios.post('http://localhost:3001/upload', data, this.state.config)
-            .then((response) => {
-                this.setState({
-                    user: { ...this.state.user, image: response.data.filename }
-                })
-            }).catch((err) => console.log(err.response))
-    }
 
     updateUser = (e) => {
         e.preventDefault();
-        Axios.put('http://localhost:3000/user/me', this.state.user, this.state.config)
+        Axios.patch('http://localhost:3000/user/me', this.state.config)
             .then((response) => console.log(response.data)).catch((err) => console.log(err.response))
         this.props.history.push('/dashboard');
     }

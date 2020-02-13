@@ -24,7 +24,7 @@ class AdminNavigation extends Component {
     render() {
         return (
             <Navbar color='dark' dark expand='md'>
-                <NavbarBrand href='/dashboard'>Hamro Bazar Ebook Store</NavbarBrand>
+                <NavbarBrand href='/admindashboard'>Hamro Bazar Ebook Store</NavbarBrand>
                 <NavbarToggler onClick={this.toggle} />
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className='mr-auto' navbar>

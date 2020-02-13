@@ -7,12 +7,12 @@ import axios from 'axios'
 import Navigation from './Navigation';
 
 
-export default class Dashboard extends Component {
+export default class BookList extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      product: [],
+      book: [],
         config: {
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
           }
@@ -20,11 +20,11 @@ export default class Dashboard extends Component {
       }
 
       componentDidMount() {
-            axios.get('http://localhost:3000/product', this.state.config)
+            axios.get('http://localhost:3000/book', this.state.config)
                 .then((response) => {
                     console.log(response.data);
                     this.setState({
-                        product: response.data
+                        book: response.data
                     })
                 }).catch((err) => console.log(err.response))          
     }
@@ -41,15 +41,14 @@ export default class Dashboard extends Component {
             <Navigation/>
       <CardGroup>
         {
-          this.state.product.map((product)=> {
+          this.state.book.map((book)=> {
             return (
-              <Col sm="3">
+              <Col sm="6">
               <Card>
-        <CardImg top width="100%" src={`http://localhost:3000/upload/${product.productImage}`} alt="Card image cap" />
         <CardBody>
-          <CardTitle> {product.productName} </CardTitle>
-          <CardSubtitle> <b>Price: {product.price} </b></CardSubtitle>
-          <Button>View More</Button>
+          <CardTitle>Title: {book.BookName} </CardTitle>
+          <CardSubtitle> <b>Writer: {book.BookWriter} </b></CardSubtitle>
+            <Button>Read Now </Button>
         </CardBody>
       </Card>
       </Col>

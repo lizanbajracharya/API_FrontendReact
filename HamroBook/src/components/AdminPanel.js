@@ -161,7 +161,10 @@ render() {
                             <Button color='primary' block
                                 onClick={this.handleTodoSubmit}>Add</Button>}
                         </Form>
+
+                                <h1 align="center">BOOK LIST</h1>
                         <Table>
+                            
                         {
                             this.state.book.map((book) => {
                                 return (<tr key={book._id} color='info' className='d-flex justify-content-between align-items-center'>
