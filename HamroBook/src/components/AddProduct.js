@@ -99,19 +99,6 @@ handleTaskUpdate = (e) => {
     data.append('Writer',this.state.Writer)
     data.append('price',this.state.price)
     Axios.patch(`http://localhost:3000/product/${this.state.productId}`,data)
-    // .then(res=>{
-    //     console.log(res.statusText)
-    //     this.setState({
-    //         product: [...this.state.product, res.data],
-    //         productName:'',
-    //    productDescription:'',
-    //    Writer:'',
-    //    Stock:'',
-    //    price:'',
-    //    selectedFile:null,
-    //    isEdit:false
-    //     })
-    // })
     .then((response) => {
         const updatedTasks = this.state.product.map((products) => {
             if (products._id === response.data._id) {

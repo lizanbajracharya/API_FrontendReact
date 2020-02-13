@@ -12,6 +12,7 @@ class AdminPanel extends React.Component{
         BookContent:'',
         BookWriter:'',
         Category:'',
+        isEdit:false,
         config: {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         }
@@ -40,12 +41,14 @@ handleTodoSubmit = (e) => {
     data.append('BookName',this.state.BookName)
     data.append('BookWriter',this.state.BookWriter)
     data.append('Category',this.state.Category)
-    alert(this.state.selectedFile.name)
     Axios.post('http://localhost:3000/book',data)
-    this.state.config.then((response) => {
+    .then((response) => {
         this.setState({
             book: [...this.state.book, response.data],
-            taskName: ''
+            BookName:'',
+            selectedFile:null,
+            BookWriter:'',
+            Category:'',
         })
     })
 }
@@ -61,20 +64,44 @@ handleTodoDelete = (bookId) => {
     Axios.delete(`http://localhost:3001/book/${bookId}`, this.state.config)
 }
 
-updateTask = (updatedTask) => {
-    const updatedTasks = this.state.tasks.map((task) => {
-        if (task._id === updatedTask._id) {
-            task = updatedTask
-        }
-        return task;
-    })
-    this.setState({
-        tasks: updatedTasks
-    })
-    Axios.put(`http://localhost:3001/tasks/${updatedTask._id}`,
-        { name: updatedTask.name, done: updatedTask.done },
-        this.state.config).then((response) => console.log(response.data));
+handleTaskUpdate = (e) => {
+    const data=new FormData()
+    data.append('BookContent',this.state.selectedFile)
+    data.append('BookName',this.state.BookName)
+    data.append('BookWriter',this.state.BookWriter)
+    data.append('Category',this.state.Category)
+    alert(this.state.selectedFile.name)
+    Axios.patch(`http://localhost:3000/book/${this.state.bookId}`,data)
+    .then((response) => {
+        const updatedTasks = this.state.book.map((books) => {
+            if (books._id === response.data._id) {
+                books = response.data
+            }
+            return books;
+        })
+        this.setState({
+            book: updatedTasks,
+            BookName:'',
+            Category:'',
+            BookWriter:'',
+            selectedFile:null,
+            isEdit: false
+        })
+    }).catch((err) => console.log(err.response));
 }
+
+itemClick = (bookId) => {
+    Axios.get(`http://localhost:3000/book/${bookId}`, this.state.config)
+    .then((response => {
+    this.setState({
+        bookId:response.data._id,
+        BookName: response.data.BookName,
+        BookWriter:response.data.BookWriter,
+        Category:response.data.Category,
+        isEdit:true
+    })
+})
+)}
 
 render() {
     return (
@@ -113,16 +140,19 @@ render() {
                                 <Label for='BookContent'>Select Book</Label>
                                 <Input type='file' id='BookContent' name='BookContent' onChange={this.handleCurrentTodoChange}/>
                             </FormGroup>
-                            
-                            <Button color='danger' onClick={this.handleTodoSubmit}>Add Book</Button>
+                            {
+                            (this.state.isEdit) ? <Button color='success' block
+                            onClick={this.handleTaskUpdate}>Update</Button> :
+                            <Button color='primary' block
+                                onClick={this.handleTodoSubmit}>Add</Button>}
                         </Form>
                         <Table>
                         {
                             this.state.book.map((book) => {
                                 return (<tr key={book._id} color='info' className='d-flex justify-content-between align-items-center'>
-                                    <td>{book.BookTitle}</td><td>{book.BookWriter}</td><td>{book.BookContent}</td><td>{book.Date}</td><td>{book.Category}</td>
+                                    <td>{book.BookName}</td><td>{book.BookWriter}</td><td>{book.BookContent}</td><td>{book.Date}</td><td>{book.Category}</td>
                                    <td> <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(book._id)}>Delete</Button></td>
-                                   <td> <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(book._id)}>Edit</Button></td>
+                                   <td> <Button color='danger' size='sm' onClick={() => this.itemClick(book._id)}>Edit</Button></td>
                                     </tr>)
                             })
                         }
