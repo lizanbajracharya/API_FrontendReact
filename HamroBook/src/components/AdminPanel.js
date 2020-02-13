@@ -8,10 +8,12 @@ class AdminPanel extends React.Component{
 
     this.state = {
         book: [],
+        categories: [],
         BookName:'',
         BookContent:'',
         BookWriter:'',
         Category:'',
+        categoryId:'',
         isEdit:false,
         config: {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
@@ -27,6 +29,14 @@ componentDidMount() {
                 book: response.data
             })
         })
+        Axios.get('http://localhost:3000/category', this.state.config)
+            .then((response) => {
+                this.setState({
+                    categories: response.data,
+                    categoryId: response.data[0]._id,
+                    Category:response.data.categoryname
+                })
+            }).catch((err) => console.log(err.response))
 }
 
 handleCurrentTodoChange = (event) => {
@@ -40,7 +50,7 @@ handleTodoSubmit = (e) => {
     data.append('BookContent',this.state.selectedFile)
     data.append('BookName',this.state.BookName)
     data.append('BookWriter',this.state.BookWriter)
-    data.append('Category',this.state.Category)
+    data.append('Category',this.state.categoryId)
     Axios.post('http://localhost:3000/book',data)
     .then((response) => {
         this.setState({
@@ -53,6 +63,11 @@ handleTodoSubmit = (e) => {
     })
 }
 
+handleCategoryChange = (e) => {
+    this.setState({
+        categoryId: e.target.value
+    })
+}
 
 handleTodoDelete = (bookId) => {
     const filteredBook = this.state.book.filter((book) => {
@@ -69,8 +84,7 @@ handleTaskUpdate = (e) => {
     data.append('BookContent',this.state.selectedFile)
     data.append('BookName',this.state.BookName)
     data.append('BookWriter',this.state.BookWriter)
-    data.append('Category',this.state.Category)
-    alert(this.state.selectedFile.name)
+    data.append('Category',this.state.categoryId)
     Axios.patch(`http://localhost:3000/book/${this.state.bookId}`,data)
     .then((response) => {
         const updatedTasks = this.state.book.map((books) => {
@@ -120,12 +134,13 @@ render() {
                             </FormGroup>
                             <FormGroup>
                                 <Label for='BookCategory'>Category</Label>
-                                <Input type='text'
-                                  id="Category"
-                                    name='Category'
-                                    value={this.state.Category}
-                                    onChange={(event)=>this.setState({Category:event.target.value})}
-                                    />
+                                    <Input type='select' id='category' value={this.state.categoryId} onChange={this.handleCategoryChange}>
+                            {
+                                this.state.categories.map((category) => {
+                                    return <option key={category._id} value={category._id}>{category.categoryname}</option>
+                                })
+                            }
+                        </Input>
                             </FormGroup>
                             <FormGroup>
                                 <Label for='BookWriter'>BookWriter</Label>

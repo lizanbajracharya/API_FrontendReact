@@ -12,6 +12,7 @@ import Dashboard from './components/Dashboard';
 import UserProfile from './components/UserProfile';
 import AddProduct from './components/AddProduct';
 import AllUsers from './components/AllUsers';
+import AddCategory from './components/AddCategory';
 function App() {
   return (
     <Container>
@@ -23,6 +24,7 @@ function App() {
         <PrivateRoute path='/admindashboard' component={AdminDashboard} />
         <PrivateRoute path='/dashboard' component={Dashboard} />
         <PrivateRoute path='/profile' component={UserProfile} />
+        <PrivateRoute path='/category' component={AddCategory} />
         <PrivateRoute path='/addproduct' component={AddProduct} />
         {/* <PrivateRoute path='/addbook' component={AddBook} /> */}
         <PrivateRoute path='/users' component={AllUsers} />

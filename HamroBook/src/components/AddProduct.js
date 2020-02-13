@@ -175,7 +175,6 @@ render() {
                                 <Input type='file' id='productImage' name='filesss' 
                                     onChange={this.handleCurrentTodoChange}/>
                             </FormGroup>
-                            {/* <Button color='danger' onClick={this.handleTodoSubmit} >Add Product</Button> */}
                             {
                         (this.state.isEdit) ? <Button color='success' block
                             onClick={this.handleTaskUpdate}>Update</Button> :

@@ -38,6 +38,9 @@ class AdminNavigation extends Component {
                             <NavLink href='/users'>Edit Users</NavLink>
                         </NavItem>
                         <NavItem>
+                            <NavLink href='/category'>Category</NavLink>
+                        </NavItem>
+                        <NavItem>
                             <Button color='warning' onClick={this.handleLogout}> Logout</Button>
                         </NavItem>
                     </Nav>
