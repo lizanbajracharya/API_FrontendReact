@@ -1,41 +1,23 @@
 import React, { Component } from "react";
 import { Document, Page } from "react-pdf";
+import Axios from 'axios'
 
 export default class PDF extends Component {
-  state = { numPages: null, pageNumber: 1 };
-
-  onDocumentLoadSuccess = ({ numPages }) => {
-    this.setState({ numPages });
-  };
-
-  goToPrevPage = () =>
-    this.setState(state => ({ pageNumber: state.pageNumber - 1 }));
-  goToNextPage = () =>
-    this.setState(state => ({ pageNumber: state.pageNumber + 1 }));
-
-  render() {
-    const { pageNumber, numPages } = this.state;
-
-    return (
-      <div>
-        <nav>
-          <button onClick={this.goToPrevPage}>Prev</button>
-          <button onClick={this.goToNextPage}>Next</button>
-        </nav>
-
-        <div style={{ width: 600 }}>
-          <Document
-            file={this.props.match.params.bookcontent}
-            onLoadSuccess={this.onDocumentLoadSuccess}
-          >
-            <Page pageNumber={pageNumber} width={600} />
-          </Document>
-        </div>
-
-        <p>
-          Page {pageNumber} of {numPages}
-        </p>
-      </div>
-    );
-  }
+  componentDidMount(){
+  Axios.get(`localhost:3000/load/`+(this.props.match.params.bookcontent), {
+})
+.then(response => {
+//Create a Blob from the PDF Stream
+    const file = new Blob(
+      [response.data], 
+      {type: 'application/pdf'});
+//Build a URL from the file
+    const fileURL = URL.createObjectURL(file);
+//Open the URL on new Window
+    window.open(fileURL);
+})
+.catch(error => {
+    console.log(error);
+});
+}
 }
