@@ -43,6 +43,7 @@ export default class AllUsers extends Component{
             <React.Fragment>
                 <AdminNavigation />
                 <Container>
+                    <h1>ALL USERS</h1>
                     <ListGroup>
                         {
                             this.state.user.map((user) => {

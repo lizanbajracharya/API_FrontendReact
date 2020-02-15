@@ -14,6 +14,7 @@ export default class BookList extends Component {
     super(props)
     this.state = {
       book: [],
+      bookContent:'',
         config: {
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
           }
@@ -25,10 +26,12 @@ export default class BookList extends Component {
                 .then((response) => {
                     console.log(response.data);
                     this.setState({
-                        book: response.data
+                        book: response.data,
+                        bookContent:response.data.BookContent
                     })
                 }).catch((err) => console.log(err.response))          
     }
+    
 
     handleLogout = (e) => {
       e.preventDefault();
@@ -50,8 +53,8 @@ export default class BookList extends Component {
           <CardTitle>Title: {book.BookName} </CardTitle>
           <CardSubtitle> <b>Writer: {book.BookWriter} </b></CardSubtitle>
           <Link to={`/pdf/${book.BookContent}`}>
-            <Button>Read Now </Button>
-            </Link>
+            <Button >Read</Button>   
+            </Link>          
         </CardBody>
       </Card>
       </Col>
@@ -60,8 +63,6 @@ export default class BookList extends Component {
         }
     </CardGroup>
             </div>
-    
-    
         )
     }
 }

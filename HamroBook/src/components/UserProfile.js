@@ -28,9 +28,10 @@ export default class UserProfile extends Component {
 
     updateUser = (e) => {
         e.preventDefault();
-        Axios.patch('http://localhost:3000/user/me', this.state.config)
+        Axios.patch('http://localhost:3000/user/me',this.state.user, this.state.config)
             .then((response) => console.log(response.data)).catch((err) => console.log(err.response))
         this.props.history.push('/dashboard');
+        alert("You have Successfully Updated Your Profile");
     }
 
     handleChange(e) {
@@ -71,7 +72,7 @@ export default class UserProfile extends Component {
                                     value={this.state.user.username}
                                     onChange={(e) => this.handleChange(e)} />
                             </FormGroup>
-                            <Button color='danger' onClick={this.updateUser} block>Update User</Button>
+                            <Button color='danger' onClick={this.updateUser} block>Update User</Button>                           
                         </Form>
                     </Container>
                 </div>

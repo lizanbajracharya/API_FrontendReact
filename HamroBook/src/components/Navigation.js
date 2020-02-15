@@ -35,6 +35,9 @@ class Navigation extends Component {
                             <NavLink href='/book'>Book</NavLink>
                         </NavItem>
                         <NavItem>
+                            <NavLink href='/search'>Search</NavLink>
+                        </NavItem>
+                        <NavItem>
                             <NavLink href='/order'>My Order</NavLink>
                         </NavItem>
                         <NavItem>

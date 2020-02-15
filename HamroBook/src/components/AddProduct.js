@@ -183,18 +183,28 @@ render() {
                                 onClick={this.handleTodoSubmit}>Add</Button>
                     }
                         </Form>
-                        <Table>
-                        {
-                            this.state.product.map((product) => {
-                                return (<tr key={product._id} color='info' className='d-flex justify-content-between align-items-center'>
-                                    <td>{product.productName}</td><td>{product.Writer}</td><td>{product.price}</td>
+                        <Table className="table table-dark table-striped donorstable">
+                    <thead className="table-head">
+                        <th>Book Name</th>
+                        <th>Book Writer</th>
+                        <th>Book Rate</th>
+                        <th>Book Image</th>
+                        <th>Book Description</th>
+                        <th>Stock</th>
+                        <th>Delete</th>
+                        <th>Edit</th>
+                    </thead>
+                    <tbody>
+                        {this.state.product.map(product=>(
+                        <tr key={product._id}>
+                            <td>{product.productName}</td><td>{product.Writer}</td><td>{product.price}</td>
                                     <td><img src={`http://localhost:3000/upload/${product.productImage}`} alt={product.productName} width="200px" /></td><td>{product.productDescription}</td><td>{product.Stock}</td><td>
                                     <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(product._id)}>Delete</Button></td><td>
                                     <Button color='danger' size='sm' onClick={() => this.itemClick(product._id)}>Edit</Button></td>
-                                </tr>)
-                            })
-                        }
-                    </Table>
+                        </tr>
+                        ))}
+                    </tbody>
+                </Table>
             </Container>
         </React.Fragment>
     )

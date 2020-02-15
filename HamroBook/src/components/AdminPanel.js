@@ -163,18 +163,30 @@ render() {
                         </Form>
 
                                 <h1 align="center">BOOK LIST</h1>
-                        <Table>
-                            
-                        {
-                            this.state.book.map((book) => {
-                                return (<tr key={book._id} color='info' className='d-flex justify-content-between align-items-center'>
-                                    <td>{book.BookName}</td><td>{book.BookWriter}</td><td>{book.BookContent}</td><td>{book.Date}</td><td>{book.Category}</td>
-                                   <td> <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(book._id)}>Delete</Button></td>
-                                   <td> <Button color='danger' size='sm' onClick={() => this.itemClick(book._id)}>Edit</Button></td>
-                                    </tr>)
-                            })
-                        }
-                    </Table>
+                                <Table className="table table-dark table-striped donorstable">
+                    <thead className="table-head">
+                        <th>Book Name</th>
+                        <th>Book Writer</th>
+                        <th>Book Content</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Delete</th>
+                        <th>Edit</th>
+                    </thead>
+                    <tbody>
+                        {this.state.book.map(book=>(
+                        <tr key={book._id}>
+                            <td>{book.BookName}</td>
+                            <td>{book.BookWriter}</td>
+                            <td>{book.BookContent}</td>
+                            <td>{book.Category}</td>
+                            <td>{book.Date}</td>
+                            <td> <Button color='danger' size='sm' onClick={() => this.handleTodoDelete(book._id)}>Delete</Button></td>
+                             <td> <Button color='danger' size='sm' onClick={() => this.itemClick(book._id)}>Edit</Button></td>
+                        </tr>
+                        ))}
+                    </tbody>
+                </Table>
             </Container>
         </React.Fragment>
     )

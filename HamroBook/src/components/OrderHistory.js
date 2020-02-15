@@ -39,7 +39,7 @@ export default class OrderHistory extends Component {
             <React.Fragment>   
             <div>
             <Navigation/>     
-                <h1 className="tableName donorstable">All Order</h1>
+                <h1 className="tableName donorstable">My Order</h1>
                 <Table className="table table-dark table-striped donorstable">
                     <thead className="table-head">
                         <th>Product Name</th>

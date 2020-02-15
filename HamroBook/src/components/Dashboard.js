@@ -6,7 +6,7 @@ import {
 import axios from 'axios'
 import Navigation from './Navigation';
 import { Link } from 'react-router-dom';
-
+import Slider from './Slider';
 
 export default class Dashboard extends Component {
 
@@ -40,6 +40,7 @@ export default class Dashboard extends Component {
         return (
             <div>
             <Navigation/>
+            <Slider/><br></br><hr width="20px"></hr>
       <CardGroup>
         {
           this.state.product.map((product)=> {
