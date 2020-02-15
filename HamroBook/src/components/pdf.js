@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Document, Page } from "react-pdf";
 
-export default class pdf extends Component {
+export default class PDF extends Component {
   state = { numPages: null, pageNumber: 1 };
 
   onDocumentLoadSuccess = ({ numPages }) => {
@@ -25,7 +25,7 @@ export default class pdf extends Component {
 
         <div style={{ width: 600 }}>
           <Document
-            file="Fictional/MustStupidMurder.pdf"
+            file={this.props.match.params.bookcontent}
             onLoadSuccess={this.onDocumentLoadSuccess}
           >
             <Page pageNumber={pageNumber} width={600} />

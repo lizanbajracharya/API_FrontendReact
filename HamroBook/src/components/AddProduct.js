@@ -48,6 +48,7 @@ handleTodoSubmit = (e) => {
     data.append('Stock',this.state.Stock)
     data.append('Writer',this.state.Writer)
     data.append('price',this.state.price)
+    console.log(data)
     Axios.post('http://localhost:3000/product',data)
     .then(res=>{
         console.log(res.statusText)

@@ -34,13 +34,13 @@ export default class Order extends Component{
 
     handleTodoSubmit = (e) => { 
         const data=new FormData()
-        data.append('productName',this.state.productName)
-        data.append('mobileNumber',this.state.mobileNumber)
+        data.append('productname',this.state.productName)
+        data.append('mobilenumber',this.state.mobileNumber)
         data.append('location',this.state.location)
         data.append('rate',this.state.rate)
         Axios.post('http://localhost:3000/order',data,this.state.config)
         .then(res=>{
-            console.log(res.statusText)
+            console.log(data)
             this.setState({
                 isBought: true
             });

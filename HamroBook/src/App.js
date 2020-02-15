@@ -16,6 +16,7 @@ import AddCategory from './components/AddCategory';
 import BookList from './components/BookList';
 import Book from './components/Book';
 import Order from './components/Order';
+import PDF from './components/PDF';
 function App() {
   return (
     <Container>
@@ -33,6 +34,7 @@ function App() {
         <PrivateRoute path='/book' component={BookList} />
         <PrivateRoute path='/users' component={AllUsers} />
         <PrivateRoute path='/order/:id' component={Order}/>
+        <PrivateRoute path='/pdf/:file' component={PDF}/>
         <Route>
           <NoMatch />
         </Route>

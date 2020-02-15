@@ -76,7 +76,7 @@ handleTodoDelete = (bookId) => {
     this.setState({
         book: filteredBook
     })
-    Axios.delete(`http://localhost:3001/book/${bookId}`, this.state.config)
+    Axios.delete(`http://localhost:3000/book/${bookId}`, this.state.config)
 }
 
 handleTaskUpdate = (e) => {
