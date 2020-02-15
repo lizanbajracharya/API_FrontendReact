@@ -18,6 +18,7 @@ import Book from './components/Book';
 import Order from './components/Order';
 import OrderHistory from './components/OrderHistory';
 import Search from './components/Search';
+// import PDF from './components/PDF';
 function App() {
   return (
     <Container>
@@ -37,6 +38,7 @@ function App() {
         <PrivateRoute path='/order/:id' component={Order}/>
         <PrivateRoute path='/order' component={OrderHistory}/>
         <PrivateRoute path='/search' component={Search}/>
+        {/* <PrivateRoute path='/load' component={PDF}/> */}
         <Route>
           <NoMatch />
         </Route>
