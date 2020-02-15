@@ -14,6 +14,8 @@ import AddProduct from './components/AddProduct';
 import AllUsers from './components/AllUsers';
 import AddCategory from './components/AddCategory';
 import BookList from './components/BookList';
+import Book from './components/Book';
+import Order from './components/Order';
 function App() {
   return (
     <Container>
@@ -27,8 +29,10 @@ function App() {
         <PrivateRoute path='/profile' component={UserProfile} />
         <PrivateRoute path='/category' component={AddCategory} />
         <PrivateRoute path='/addproduct' component={AddProduct} />
+        <PrivateRoute path='/booklist/:id' component={Book}/>
         <PrivateRoute path='/book' component={BookList} />
         <PrivateRoute path='/users' component={AllUsers} />
+        <PrivateRoute path='/order/:id' component={Order}/>
         <Route>
           <NoMatch />
         </Route>

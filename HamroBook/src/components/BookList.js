@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {
-  Card, CardImg, CardText, CardGroup, Button, CardBody,
-  CardTitle, CardSubtitle, Jumbotron, Col
+  Card, CardGroup, Button, CardBody,
+  CardTitle, CardSubtitle, Col,
 } from 'reactstrap';
 import axios from 'axios'
 import Navigation from './Navigation';
+import { Link } from 'react-router-dom';
 
 
 export default class BookList extends Component {
@@ -48,7 +49,9 @@ export default class BookList extends Component {
         <CardBody>
           <CardTitle>Title: {book.BookName} </CardTitle>
           <CardSubtitle> <b>Writer: {book.BookWriter} </b></CardSubtitle>
+          <Link to={`/pdf/${book.BookContent}`}>
             <Button>Read Now </Button>
+            </Link>
         </CardBody>
       </Card>
       </Col>

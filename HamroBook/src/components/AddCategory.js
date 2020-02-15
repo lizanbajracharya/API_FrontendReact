@@ -86,7 +86,7 @@ export default class AddCategory extends Component {
                                 <Input type='file' id='categoryimage' name='filesss' 
                                     onChange={this.handleCurrentTodoChange}/>
                             </FormGroup>
-                            <Button color='danger' onClick={this.submitCategory}>Add Product</Button>
+                            <Button color='danger' onClick={this.submitCategory}>Add Category</Button>
                     </Form>
 
                     <ListGroup>

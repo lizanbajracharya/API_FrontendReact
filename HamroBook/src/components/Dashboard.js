@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {
-  Card, CardImg, CardText, CardGroup, Button, CardBody,
-  CardTitle, CardSubtitle, Jumbotron, Col
+  Card, CardImg, CardGroup, Button, CardBody,
+  CardTitle, CardSubtitle, Col
 } from 'reactstrap';
 import axios from 'axios'
 import Navigation from './Navigation';
+import { Link } from 'react-router-dom';
 
 
 export default class Dashboard extends Component {
@@ -49,7 +50,8 @@ export default class Dashboard extends Component {
         <CardBody>
           <CardTitle> {product.productName} </CardTitle>
           <CardSubtitle> <b>Price: {product.price} </b></CardSubtitle>
-          <Button>View More</Button>
+          <Link to={`/booklist/${product._id}`}>
+          <Button>View More</Button></Link>
         </CardBody>
       </Card>
       </Col>
